@@ -11,18 +11,18 @@ class ListaPokemons(MRJob):
             reducer = self.reducer_1),
             MRStep(reducer=self.reducer_2)
             ,MRStep(reducer=self.reducer_3)
-
         ]
 
     def mapper_1(self, _, linha):
-        dados = linha.split("}")
-        for pokemon in dados :
-            if(pokemon !="\""):
-                pokemon = pokemon.replace('\'', '')
-                tipos = re.findall(r"\[([\s:,\w]+)\]", pokemon)
-                danos = re.findall(r"\{([\w:\s*,\.]+)", pokemon)
-                atributos = pokemon.split(",")
-                yield int(float(atributos[0])), {"nome":atributos[1],"tipos":tipos, "danos": danos}
+        if (linha[0]!=','):
+            dados = linha.split("}")
+            for pokemon in dados :
+                if(pokemon !="\""):
+                    pokemon = pokemon.replace('\'', '')
+                    tipos = re.findall(r"\[([\s:,\w]+)\]", pokemon)
+                    danos = re.findall(r"\{([\w:\s*,\.]+)", pokemon)
+                    atributos = pokemon.split(",")
+                    yield int(float(atributos[0])), {"nome":atributos[1],"tipos":tipos, "danos": danos}
     
     def mapper_2(self, chave, valores):
             tipos = len(valores["tipos"])
