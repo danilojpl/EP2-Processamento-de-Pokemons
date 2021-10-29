@@ -48,9 +48,8 @@ class ListaPokemons(MRJob):
         
         for pokemon in pokemon_danos:
             for p in pokemon_tipos:
-                if(list(p)[0]!=pokemon["nome"]):
-                    pokemon["list_pokemon"] = p
-                    yield None, pokemon
+                pokemon["list_pokemon"] = p
+                yield None, pokemon
 
     def reducer_2(self, chave, valores):
         lista = []
